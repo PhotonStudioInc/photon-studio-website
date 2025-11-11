@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Photon Studio Inc. — Data Recovery Lab (Vancouver)</title>
+  <meta name="description" content="Vancouver data recovery lab for HDD, SSD, SD/USB, RAID & remote imaging. Transparent pricing, $60 diagnostic deposit credited on success." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-top: #fafafb;      /* bright but soft */
+      --bg-mid: #f0f1f3;      /* gentle grey */
+      --bg-bottom: #e4e6ea;   /* deeper grey */
+      --panel: #ffffff;       /* cards start */
+      --panel-end: #f4f5f7;   /* cards end */
+      --muted: #61636b;
+      --text: #1f2330;
+      --heading: #0f1321;
+      --line: #d7d9df;
+      --shadow: 0 8px 30px rgba(20,24,32,0.08);
+      --shadow-lg: 0 14px 40px rgba(20,24,32,0.12);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --maxw: 1180px;
+      --nav-h: 72px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 40%, var(--bg-bottom) 100%);
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    a{color:inherit; text-decoration:none}
+
+    /* Layout helpers */
+    .container{max-width:var(--maxw); margin:0 auto; padding:0 22px}
+    section{position:relative; padding:96px 0; scroll-margin-top: calc(var(--nav-h) + 20px)}
+    section::before{content:""; position:absolute; left:0; right:0; top:0; height:110px; background:linear-gradient(180deg, rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 100%); pointer-events:none}
+    h1,h2,h3,h4{color:var(--heading); margin:0 0 10px}
+    p{margin:0 0 10px; color:#394054; line-height:1.7}
+
+    /* Header */
+    header{position:fixed; top:0; left:0; right:0; height:var(--nav-h); z-index:1000; backdrop-filter:saturate(110%) blur(10px); background:linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(247,248,250,0.9) 100%); border-bottom:1px solid var(--line); box-shadow:0 6px 16px rgba(0,0,0,0.06)}
+    .nav{height:var(--nav-h); display:flex; align-items:center; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:700}
+    .logo{width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#e1e3e8,#f7f7f9); border:1px solid var(--line); box-shadow:var(--shadow)}
+    nav ul{display:flex; gap:18px; list-style:none; padding:0; margin:0}
+    nav a{padding:10px 12px; border-radius:10px; font-weight:600; color:#2b3143}
+    nav a:hover{background:rgba(0,0,0,0.05)}
+    .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 16px; border:1px solid var(--line); border-radius:12px; background:linear-gradient(180deg,#fff,#f3f4f6); box-shadow:inset 0 0 0 1px rgba(255,255,255,.6), var(--shadow); font-weight:700}
+    .btn:hover{transform:translateY(-1px); box-shadow:var(--shadow-lg)}
+
+    /* Hero */
+    .hero{padding-top:calc(96px + var(--nav-h)); border-bottom:1px solid var(--line)}
+    .hero-inner{display:grid; grid-template-columns:1.2fr .8fr; gap:28px}
+    .badge{display:inline-flex; align-items:center; gap:8px; font-size:12px; color:#495066; background:linear-gradient(180deg,#fff,#f5f6f8); padding:8px 12px; border:1px solid var(--line); border-radius:999px}
+    .badge .dot{width:6px; height:6px; border-radius:999px; background:linear-gradient(180deg,#8b90a0,#c6cad6)}
+    h2.display{font-size:44px; line-height:1.06; margin:16px 0 12px}
+    p.lead{font-size:18px; line-height:1.65; color:#333a4f; margin:0 0 26px}
+    .hero-card{background:linear-gradient(180deg,var(--panel) 0%, var(--panel-end) 100%); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
+    .hero-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    .hero-tile{background:linear-gradient(180deg,#ffffff 0%, #f4f5f7 100%); border:1px solid var(--line); border-radius:14px; padding:16px; transition:transform .15s ease, box-shadow .15s ease}
+    .hero-tile:hover{transform:translateY(-2px); box-shadow:var(--shadow-lg)}
+    .hero-tile h4{margin:0 0 6px; font-size:14px; color:#24293a; letter-spacing:.3px}
+    .hero-tile p{margin:0; font-size:13px; color:#495066}
+
+    /* Cards */
+    .card{background:linear-gradient(180deg, var(--panel) 0%, var(--panel-end) 100%); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); transition:transform .15s ease, box-shadow .15s ease}
+    .card:hover{transform:translateY(-3px); box-shadow:var(--shadow-lg)}
+
+    /* Grids */
+    .grid{display:grid; gap:16px}
+    .cols-2{grid-template-columns:repeat(2,1fr)}
+    .cols-3{grid-template-columns:repeat(3,1fr)}
+
+    /* Tables */
+    table{width:100%; border-collapse:separate; border-spacing:0 10px}
+    th, td{font-size:14px; text-align:left; padding:14px 16px}
+    th{color:#6a7081; font-weight:600}
+    tbody tr{background:linear-gradient(180deg,#ffffff 0%, #f5f6f8 100%); border:1px solid var(--line)}
+    tbody tr td:first-child{border-top-left-radius:12px; border-bottom-left-radius:12px}
+    tbody tr td:last-child{border-top-right-radius:12px; border-bottom-right-radius:12px}
+    tbody tr:hover{outline:1px solid #cfd2da}
+
+    /* FAQ */
+    .faq{display:grid; gap:12px}
+    details{background:linear-gradient(180deg,#ffffff 0%, #f5f6f8 100%); border:1px solid var(--line); border-radius:14px; padding:16px}
+    details[open]{box-shadow:var(--shadow)}
+    summary{cursor:pointer; list-style:none; font-weight:700; color:#1f2434}
+    summary::-webkit-details-marker{display:none}
+    details p{margin:10px 0 0; color:#3f465a; font-size:14px; line-height:1.7}
+
+    /* Footer */
+    footer{padding:44px 0; color:#5a6071; background:linear-gradient(180deg,#fafbff 0%, #eceff5 100%); border-top:1px solid var(--line)}
+    .footgrid{display:grid; gap:20px; grid-template-columns:2fr 1fr 1fr}
+    .small{font-size:12px}
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .hero-inner{grid-template-columns:1fr}
+      .cols-2{grid-template-columns:1fr}
+      .cols-3{grid-template-columns:1fr}
+      .footgrid{grid-template-columns:1fr}
+      nav ul{display:none}
+      .menu-toggle{display:inline-flex}
+    }
+    @media (min-width: 961px){ .menu-toggle{display:none} }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#home" aria-label="Photon Studio Home">
+        <!-- LOGO: Replace this placeholder block with your actual logo image if preferred  -->
+           <img src="/assets/logo.png" alt="Photon Studio Inc." width="36" height="36" />
+       
+        <div class="logo" aria-hidden="true"></div>
+        <span>Photon Studio Inc.</span>
+      </a>
+      <button class="btn menu-toggle" aria-label="Open menu" onclick="toggleMenu()">Menu</button>
+      <nav>
+        <ul id="menu">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#why">Why Choose</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a class="btn" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="container hero-inner">
+      <div>
+        <span class="badge"><span class="dot"></span> Vancouver Data Recovery Lab</span>
+        <h2 class="display">Fast, transparent recovery for HDD, SSD, SD/USB & RAID.</h2>
+        <p class="lead">Professional workflow, friendly service. $60 diagnostic deposit credited to your total — no recovery, no additional fees. Mail-in and remote imaging options available.</p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap">
+          <a class="btn" href="#pricing">View Pricing</a>
+          <a class="btn" href="#contact">Book Diagnostic</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-grid">
+          <div class="hero-tile">
+            <h4>Imaging‑first</h4>
+            <p>We clone behind a write‑blocker to protect originals before recovery.</p>
+          </div>
+          <div class="hero-tile">
+            <h4>Local custody</h4>
+            <p>Your device stays with us unless you approve a specialist escalation.</p>
+          </div>
+          <div class="hero-tile">
+            <h4>Clear quotes</h4>
+            <p>Fixed quote after diagnostics. Deposit applies to your total.</p>
+          </div>
+          <div class="hero-tile">
+            <h4>Privacy</h4>
+            <p>Confidential handling, 7‑day retention, secure verified wipe on request.</p>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Reviews block near the request form -->
+      <div class="card" id="reviews" style="margin-top:16px">
+        <!-- REVIEWS: Link your Google Business Profile reviews page below. You can also swap this static list for a widget later. -->
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:12px">
+          <div style="font-size:18px; font-weight:700; color:var(--heading)">Recent Reviews</div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap">
+            <a class="btn" href="https://g.page/r/YOUR_GOOGLE_PLACE_ID" target="_blank" rel="noopener">View on Google</a>
+            <a class="btn" href="https://search.google.com/local/writereview?placeid=YOUR_GOOGLE_PLACE_ID" target="_blank" rel="noopener">Leave a Review</a>
+          </div>
+        </div>
+        <div class="grid cols-3">
+          <!-- Replace with real snippets or an embed. -->
+          <div class="card" style="padding:16px">
+            <div style="font-weight:700">★★★★★</div>
+            <div style="color:#3f465a">“Recovered my drone footage in 48 hours. Clear communication and fair price.”</div>
+            <div style="color:#6a7081; font-size:12px; margin-top:6px">— Alex P.</div>
+          </div>
+          <div class="card" style="padding:16px">
+            <div style="font-weight:700">★★★★★</div>
+            <div style="color:#3f465a">“Got back years of family photos from a dead HDD. Highly recommend.”</div>
+            <div style="color:#6a7081; font-size:12px; margin-top:6px">— Priya S.</div>
+          </div>
+          <div class="card" style="padding:16px">
+            <div style="font-weight:700">★★★★☆</div>
+            <div style="color:#3f465a">“USB drive fixed and files restored same week. Super helpful.”</div>
+            <div style="color:#6a7081; font-size:12px; margin-top:6px">— Marco R.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <div class="section-head" style="display:flex; align-items:end; justify-content:space-between; gap:12px; margin-bottom:22px">
+        <h3>Services</h3>
+        <a class="btn" href="#contact">Start a recovery</a>
+      </div>
+      <div class="grid cols-2">
+        <div class="card">
+          <div style="display:flex; gap:14px">
+            <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(180deg,#fff,#eef0f5); border:1px solid var(--line); display:grid; place-items:center; font-weight:700">HDD</div>
+            <div>
+              <div style="font-size:12px; color:var(--muted); letter-spacing:.3px; text-transform:uppercase">Hard Drives</div>
+              <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">HDD Recovery</div>
+              <p>Deleted data, partition loss, bad sectors, unmountable volumes. Most 1–3 TB drives recovered within 3–5 business days.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex; gap:14px">
+            <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(180deg,#fff,#eef0f5); border:1px solid var(--line); display:grid; place-items:center; font-weight:700">SSD</div>
+            <div>
+              <div style="font-size:12px; color:var(--muted); letter-spacing:.3px; text-transform:uppercase">Solid‑State</div>
+              <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">SSD & NVMe</div>
+              <p>Logical recoveries, controller/firmware issues, unstable reads. We explain constraints and options clearly before work begins.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex; gap:14px">
+            <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(180deg,#fff,#eef0f5); border:1px solid var(--line); display:grid; place-items:center; font-weight:700">SD</div>
+            <div>
+              <div style="font-size:12px; color:var(--muted); letter-spacing:.3px; text-transform:uppercase">Media Cards</div>
+              <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">SD & microSD</div>
+              <p>Camera, drone, dashcam & CCTV footage. Deleted/ formatted cards, corrupted filesystems, fragmented video recovery.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex; gap:14px">
+            <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(180deg,#fff,#eef0f5); border:1px solid var(--line); display:grid; place-items:center; font-weight:700">USB</div>
+            <div>
+              <div style="font-size:12px; color:var(--muted); letter-spacing:.3px; text-transform:uppercase">Flash Drives</div>
+              <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">USB Recovery</div>
+              <p>Corruption, broken FAT, unreadable devices. Connector repair and chip‑level options where feasible.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex; gap:14px">
+            <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(180deg,#fff,#eef0f5); border:1px solid var(--line); display:grid; place-items:center; font-weight:700">RA</div>
+            <div>
+              <div style="font-size:12px; color:var(--muted); letter-spacing:.3px; text-transform:uppercase">Multi‑Disk</div>
+              <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">RAID / NAS</div>
+              <p>RAID0/1/5/6 & JBOD logical failures, rebuild errors, multi‑drive issues. Includes safe imaging and array reconstruction.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex; gap:14px">
+            <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(180deg,#fff,#eef0f5); border:1px solid var(--line); display:grid; place-items:center; font-weight:700">IMG</div>
+            <div>
+              <div style="font-size:12px; color:var(--muted); letter-spacing:.3px; text-transform:uppercase">Remote</div>
+              <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">Disk Image / Remote</div>
+              <p>Send a dd/Clonezilla image. We analyze & recover from the clone for safe, remote‑friendly handling.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-head" style="display:flex; align-items:end; justify-content:space-between; gap:12px; margin-bottom:18px">
+        <h3>Pricing</h3>
+        <div style="color:#5b6274">$60 diagnostic deposit credited to your total • No recovery, no additional fees</div>
+      </div>
+
+      <div class="card" style="margin-bottom:14px">
+        <strong>Turnaround:</strong> Standard 1–3 days for SD/USB, 3–5 for HDD/SSD, 3–7 for RAID. <strong>Expedited:</strong> +$75 (24–48h priority).
+      </div>
+
+      <div class="card">
+        <h4 style="margin-top:0; font-size:18px">Hard Drive (HDD)</h4>
+        <div style="color:#5b6274; font-size:14px; margin-bottom:6px">Logical & moderate issues. Severe mechanical cases quoted after diagnostic.</div>
+        <table aria-label="HDD pricing table">
+          <thead>
+            <tr><th>Capacity</th><th>Common Issues</th><th>Typical Total (incl. deposit)</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Under 500 GB</td><td>Deleted data, minor corruption</td><td>$160–$250</td><td>Often 2–3 days</td></tr>
+            <tr><td>500 GB – 2 TB</td><td>Bad sectors, file system errors</td><td>$220–$350</td><td>Most common</td></tr>
+            <tr><td>2 TB – 6 TB</td><td>Heavy sector damage</td><td>$300–$450</td><td>More imaging time</td></tr>
+            <tr><td>6 TB+ / Ext. Enclosures</td><td>Multi‑drive or severe</td><td>$450–$800+</td><td>Custom quote</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h4 style="margin-top:0; font-size:18px">Solid‑State Drive (SSD / NVMe)</h4>
+        <div style="color:#5b6274; font-size:14px; margin-bottom:6px">Logical recoveries & controller/firmware issues; hardware feasibility varies by model.</div>
+        <table aria-label="SSD pricing table">
+          <thead>
+            <tr><th>Capacity</th><th>Common Issues</th><th>Typical Total (incl. deposit)</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Up to 512 GB</td><td>Deleted data, corruption</td><td>$220–$350</td><td>Logical only</td></tr>
+            <tr><td>512 GB – 1 TB</td><td>Firmware, bad blocks</td><td>$300–$450</td><td>Varies by controller</td></tr>
+            <tr><td>1 TB+ / NVMe</td><td>Advanced failures</td><td>$400–$600+</td><td>Quoted after diagnostic</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h4 style="margin-top:0; font-size:18px">SD & microSD</h4>
+        <table aria-label="SD pricing table">
+          <thead>
+            <tr><th>Capacity</th><th>Common Issues</th><th>Typical Total (incl. deposit)</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Up to 64 GB</td><td>Deleted, formatted</td><td>$120–$180</td><td>Photos & video</td></tr>
+            <tr><td>128–256 GB</td><td>Corruption, FS damage</td><td>$180–$250</td><td>Drone/dashcam common</td></tr>
+            <tr><td>512 GB+</td><td>Controller/partial reads</td><td>$250–$350</td><td>Method‑safe only</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h4 style="margin-top:0; font-size:18px">USB Flash Drives</h4>
+        <table aria-label="USB pricing table">
+          <thead>
+            <tr><th>Capacity</th><th>Common Issues</th><th>Typical Total (incl. deposit)</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Up to 64 GB</td><td>Corruption, broken FAT</td><td>$120–$180</td><td>Quick cases</td></tr>
+            <tr><td>128–512 GB</td><td>Unreadable, surge</td><td>$180–$250</td><td>Chip‑level possible</td></tr>
+            <tr><td>Broken connector</td><td>Detached head/board</td><td>$220–$300</td><td>Includes micro‑solder</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h4 style="margin-top:0; font-size:18px">RAID / NAS</h4>
+        <table aria-label="RAID pricing table">
+          <thead>
+            <tr><th>Configuration</th><th>Common Issues</th><th>Typical Total (incl. deposit)</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2‑drive RAID 0/1</td><td>Logical failure, rebuild error</td><td>$350–$600</td><td>Includes array rebuild</td></tr>
+            <tr><td>3–5 drive RAID 5/6</td><td>Multiple drive issues</td><td>$600–$900+</td><td>Depends on size/count</td></tr>
+            <tr><td>NAS / JBOD</td><td>FS damage, reformat</td><td>$400–$700</td><td>Logical only</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h4 style="margin-top:0; font-size:18px">Disk Image & Remote</h4>
+        <table aria-label="Remote pricing table">
+          <thead>
+            <tr><th>Service</th><th>Description</th><th>Typical Total (incl. deposit)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Remote logical</td><td>Client sends dd/Clonezilla image</td><td>$150–$250</td></tr>
+            <tr><td>Extraction & verify</td><td>Carving from corrupted image</td><td>$200–$300</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Why Choose -->
+  <section id="why">
+    <div class="container">
+      <div class="section-head" style="margin-bottom:22px"><h3>Why Choose Photon Studio</h3></div>
+      <div class="grid cols-3">
+        <div class="card">
+          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px">Professional Lab</div>
+          <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">Imaging‑first workflow</div>
+          <p>We clone behind a write‑blocker, then recover from the image to preserve original evidence and maximize success.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px">Transparent</div>
+          <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">Clear, fixed quotes</div>
+          <p>$60 diagnostic deposit credited to your total. If we can’t recover your data, you owe nothing more.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px">Local & Secure</div>
+          <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">Privacy by design</div>
+          <p>Devices remain in local custody. Confidential handling, 7‑day retention, and verified wipes on request.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px">Business‑ready</div>
+          <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">RAID/NAS expertise</div>
+          <p>Logical RAID rebuilds, documented chain‑of‑custody on mail‑ins, and destruction certificates available.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px">Fast</div>
+          <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">Practical turnaround</div>
+          <p>Most SD/USB in 1–3 days; HDD/SSD in 3–5; RAID in 3–7. Optional expedited priority for urgent cases.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px">No Hype</div>
+          <div style="font-size:18px; font-weight:700; color:var(--heading); margin:6px 0 8px">Plain‑English updates</div>
+          <p>You’ll know the issue, plan, success likelihood, and quote before we proceed. No scare tactics, ever.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-head"><h3>FAQ</h3></div>
+      <div class="faq">
+        <details>
+          <summary>What happens after drop‑off or mail‑in?</summary>
+          <p>We perform safe diagnostics and email a short report with a fixed quote. Approve to proceed; otherwise only the $60 deposit applies.</p>
+        </details>
+        <details>
+          <summary>Do you charge if nothing is recovered?</summary>
+          <p>No. You only pay the diagnostic deposit. If we can’t recover, there’s no additional fee.</p>
+        </details>
+        <details>
+          <summary>Can you work with encrypted drives (BitLocker, FileVault/APFS)?</summary>
+          <p>Yes, with your password or recovery key. Without it, modern encryption generally prevents recovery.</p>
+        </details>
+        <details>
+          <summary>My drive clicks or isn’t detected — what should I do?</summary>
+          <p>Power it off and avoid repeated attempts. Bring or ship it to us — we’ll assess and image it safely.</p>
+        </details>
+        <details>
+          <summary>Do you open drives (cleanroom work)?</summary>
+          <p>We start with non‑intrusive methods and imaging. If cleanroom procedures are required, we’ll explain risks and quote options first.</p>
+        </details>
+        <details>
+          <summary>Can you recover camera, drone, or CCTV footage?</summary>
+          <p>Yes. We handle fragmented video and many proprietary containers common to action cams, drones, dashcams, and CCTV.</p>
+        </details>
+        <details>
+          <summary>How is my data returned?</summary>
+          <p>We transfer recovered files to your provided drive or supply one at cost. We retain a secure copy for 7 days, then verify‑wipe.</p>
+        </details>
+        <details>
+          <summary>Do you offer discounts?</summary>
+          <p>Yes, we support students and local small businesses on a case‑by‑case basis. Ask during diagnostics.</p>
+        </details>
+        <details>
+          <summary>Is remote recovery possible?</summary>
+          <p>Yes, for logical cases. If you can provide a dd/Clonezilla image, we can analyze and recover from the clone safely.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-head" style="display:flex; align-items:end; justify-content:space-between; gap:12px">
+        <h3>Contact</h3>
+        <div style="color:#5b6274">Vancouver, BC • Mail‑in welcome across Canada</div>
+      </div>
+      <div class="grid cols-2">
+        <div class="card">
+          <div style="font-size:18px; font-weight:700; color:var(--heading); margin:0 0 8px">Start a Diagnostic</div>
+          <p>Use the form to request a drop‑off window or mail‑in instructions. Prefer email? <a href="mailto:info@example.com">info@example.com</a></p>
+          <!-- FORM: Replace action with your Formspree/Netlify/Basin endpoint; add hidden fields as needed. -->
+          <form action="#" method="post" onsubmit="event.preventDefault(); toast('Form submission placeholder. Integrate Formspree/Netlify for production.');">
+            <div style="display:grid; gap:10px; grid-template-columns:1fr 1fr">
+              <input required placeholder="First name" aria-label="First name" />
+              <input required placeholder="Last name" aria-label="Last name" />
+            </div>
+            <div style="display:grid; gap:10px; margin-top:10px">
+              <input required type="email" placeholder="Email" aria-label="Email" />
+              <input placeholder="Phone (optional)" aria-label="Phone" />
+              <select aria-label="Device type">
+                <option>Hard Drive (HDD)</option>
+                <option>Solid‑State (SSD/NVMe)</option>
+                <option>SD / microSD</option>
+                <option>USB Flash Drive</option>
+                <option>RAID / NAS</option>
+                <option>Disk Image / Remote</option>
+              </select>
+              <textarea rows="4" placeholder="Describe the issue (symptoms, capacity, what happened)…"></textarea>
+              <button class="btn" type="submit">Request instructions</button>
+            </div>
+          </form>
+        </div>
+        <div class="card">
+          <div style="font-size:18px; font-weight:700; color:var(--heading); margin:0 0 8px">Location & Hours</div>
+          <!-- ADDRESS/HOURS: Edit the details below with your real address and schedule. -->
+          <p>Add your exact address here. Street parking and quick drop‑off available. Hours: Mon–Fri 10:00–18:00 (by appointment on weekends).</p>
+          <!-- CONTACT: Replace phone/email with your real contact info. -->
+          <div style="color:#5b6274">Phone: (000) 000‑0000 • Email: info@example.com</div>
+          <div style="margin-top:10px">Mail‑in: We’ll email a packing checklist and chain‑of‑custody form.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footgrid">
+        <div>
+          <div class="brand" style="margin-bottom:8px">
+          <!-- FOOTER LOGO: Replace placeholder with your actual logo <img>. Keep accessible alt text. -->
+          <div class="logo" aria-hidden="true"></div><span style="font-weight:700">Photon Studio Inc.</span>
+        </div>
+          <div class="small" style="color:#6a7286">Professional data recovery for HDD, SSD, SD/USB, RAID & remote imaging. Vancouver‑based with Canada‑wide mail‑in.</div>
+        </div>
+        <div>
+          <div class="small" style="color:#3f465a; font-weight:700">Site</div>
+          <ul style="list-style:none; padding:0; margin:8px 0 0; display:grid; gap:6px">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#why">Why Choose</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="small" style="color:#3f465a; font-weight:700">Legal</div>
+          <ul style="list-style:none; padding:0; margin:8px 0 0; display:grid; gap:6px">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="small" style="color:#6a7286; margin-top:22px">© <span id="year"></span> Photon Studio Inc. — All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- JSON‑LD for LocalBusiness -->
+  <!-- JSON-LD: Update image, url, telephone, and full address with your real business info. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Photon Studio Inc.",
+    "image": "https://example.com/logo.png",
+    "url": "https://example.com/",
+    "telephone": "+1-000-000-0000",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Vancouver",
+      "addressRegion": "BC",
+      "addressCountry": "CA"
+    },
+    "priceRange": "$$",
+    "description": "Vancouver data recovery lab for HDD, SSD, SD/USB, RAID & remote imaging. Transparent pricing, $60 diagnostic deposit credited on success.",
+    "areaServed": "Canada"
+  }
+  </script>
+
+  <script>
+    // year
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+    // mobile menu
+    function toggleMenu(){
+      const m = document.getElementById('menu');
+      if(!m) return; m.style.display = (m.style.display === 'flex' ? 'none' : 'flex');
+      if(m.style.display==='flex'){ m.style.flexDirection='column'; m.style.gap='10px'; }
+    }
+    // smooth scroll for anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id=a.getAttribute('href');
+        if(id && id.length>1){
+          const el=document.querySelector(id);
+          if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+        }
+      });
+    });
+    // tiny toast helper for form placeholder
+    function toast(msg){
+      const t=document.createElement('div');
+      t.textContent=msg; t.style.position='fixed'; t.style.bottom='20px'; t.style.left='50%'; t.style.transform='translateX(-50%)'; t.style.padding='12px 16px'; t.style.background='linear-gradient(180deg,#ffffff,#f3f4f6)'; t.style.border='1px solid #cfd2da'; t.style.borderRadius='12px'; t.style.boxShadow='0 10px 30px rgba(20,24,32,0.12)'; t.style.zIndex='2000';
+      document.body.appendChild(t); setTimeout(()=>{t.remove()}, 2200);
+    }
+  </script>
+</body>
+</html>
